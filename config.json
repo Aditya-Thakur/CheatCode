@@ -1,0 +1,10 @@
+{
+  "total_capital": 500000,
+  "max_positions": 6,
+  "min_trade_value": 25000,
+  "max_trade_value": 75000,
+  "min_gain_pct": 2,
+  "min_rvol": 1.2,
+  "price_min": 10,
+  "price_max": 500
+}

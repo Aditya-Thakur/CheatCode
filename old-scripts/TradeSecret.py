@@ -2,10 +2,17 @@ import yfinance as yf
 import pandas_ta as ta
 import time
 import os
-from playsound import playsound
+from plyer import notification
 from rich.live import Live
 from rich.table import Table
 from rich.console import Console
+
+def notify(title, message):
+    notification.notify(
+        title=title,
+        message=message,
+        timeout=5  # seconds
+    )
 
 # --- CONFIGURATION ---
 SYMBOLS = ["TATAMOTORS.NS", "RELIANCE.NS", "INFY.NS", "HDFCBANK.NS", "TCS.NS"]
