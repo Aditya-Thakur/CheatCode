@@ -1,0 +1,34 @@
+{
+    "strategies": [
+        {
+            "name": "Opening Range Breakout (ORB)",
+            "time": "9:30 AM - 9:45 AM IST (Market Open)",
+            "full_explanation": "This strategy identifies the high and low price levels established during the first 15 minutes of the trading day. A trade is triggered when the price breaks above the high (Bullish) or below the low (Bearish) of this range. To align with high-conviction moves, the breakout should ideally be accompanied by high Relative Volume (RVOL)[cite: 11, 13]. Risk is managed by placing a stop loss at the range midpoint and targeting a 2:1 reward-to-risk ratio."
+        },
+        {
+            "name": "Mean Reversion",
+            "time": "Intraday (Best during mid-day consolidation)",
+            "full_explanation": "Mean reversion assumes that price extensions away from a historical average (the 'mean') are temporary and will eventually snap back. This script specifically uses Bollinger Bands (20-period, 2 Std Dev) to find overextended stocks. An entry is triggered when the price touches or exceeds the outer bands while maintaining a high RVOL (at least 5x average)[cite: 11, 16]. The profit target is set at the Simple Moving Average (SMA), which represents the mean."
+        },
+        {
+            "name": "VWAP Pullback",
+            "time": "Intraday (After a trend is established)",
+            "full_explanation": "The Volume Weighted Average Price (VWAP) represents the true average price paid for a stock based on volume. In a pullback setup, traders look for a stock trending above VWAP to return to the VWAP line and use it as support. An entry is taken when the price touches the VWAP from above, provided the stock has massive demand (5x RVOL)[cite: 11, 16]. This is considered a high-probability entry for momentum stocks that are temporarily cooling off."
+        },
+        {
+            "name": "Bull Flag Momentum",
+            "time": "Intraday (During strong uptrends)",
+            "full_explanation": "The Bull Flag consists of a 'pole' (a sharp, high-volume price spike) followed by a 'flag' (a period of low-volume consolidation with slightly lower highs)[cite: 11, 24]. The entry is triggered when the price breaks above the high of the flag's consolidation pattern. This strategy relies on the principle of high demand meeting low supply, often resulting in an explosive secondary move[cite: 31, 35]."
+        },
+        {
+            "name": "MACD Crossover",
+            "time": "Intraday (Trend identification)",
+            "full_explanation": "A trend-following strategy that uses the Moving Average Convergence Divergence (MACD) indicator. A bullish signal is generated when the fast MACD line crosses above the slower Signal line. To filter out weak signals, this setup requires the stock to be part of the 'Top % Gainers' list (up >10%) with significant relative volume[cite: 11, 22]. Stop losses are typically placed at the recent 5-candle low."
+        },
+        {
+            "name": "Gap and Go",
+            "time": "9:30 AM - 9:35 AM IST (Immediate Open)",
+            "full_explanation": "This aggressive strategy targets stocks that have 'gapped up' by at least 4% overnight due to a fundamental news catalyst[cite: 24, 27]. The entry is the 'first candle to make a new high' immediately after the market open. This targets the initial surge of retail and institutional buying interest. Because of the extreme volatility, it requires strict adherence to stop losses and high-volume confirmation[cite: 11, 16]."
+        }
+    ]
+}
