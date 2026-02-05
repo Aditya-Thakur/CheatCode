@@ -1,7 +1,7 @@
 import datetime
 import pandas as pd
 
-class ORBStrategy:
+class OrbStrategy:
     def __init__(self, symbol, range_minutes=15, rvol_threshold=1.5):
         self.symbol = symbol
         self.range_minutes = range_minutes

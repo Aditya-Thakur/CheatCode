@@ -50,7 +50,7 @@ def load_strategy(strategy_name):
         
         # Dynamically get the strategy class name 
         # Convert filename to PascalCase and append 'Strategy'
-        strategy_class_name = ''.join(word.capitalize() for word in filename.replace('_', ' ').split()) + 'Strategy'
+        strategy_class_name = ''.join(word.capitalize() for word in filename.replace('_', ' ').split())
         
         # Get the strategy class from the module
         strategy_class = getattr(module, strategy_class_name)
@@ -76,23 +76,23 @@ async def scan_market(ws: WebSocket):
     await ws.accept()
     print("✅ WebSocket client connected")
 
-    # Initially send all available strategies
-    strategies_info = get_strategies_info()
-    await ws.send_json({
-        "type": "strategies_list",
-        "strategies": strategies_info
-    })
-
     # Default configuration
     current_strategy_name = "Opening Range Breakout (ORB)"
     current_strategy_class = None
     current_strategy_config = {}
 
     try:
+        # Initially send all available strategies
+        strategies_info = get_strategies_info()
+        await ws.send_json({
+            "type": "strategies_list",
+            "strategies": strategies_info
+        })
+
         while True:
-            # Receive configuration updates
             try:
-                msg = await ws.receive_json()
+                # Use a timeout to prevent hanging
+                msg = await asyncio.wait_for(ws.receive_json(), timeout=30.0)
                 
                 if msg.get("type") == "strategy_update":
                     current_strategy_name = msg.get("strategy_name", current_strategy_name)
@@ -109,6 +109,14 @@ async def scan_market(ws: WebSocket):
                         "strategy": current_strategy_name
                     })
                     continue
+
+            except asyncio.TimeoutError:
+                # Send a keep-alive message to maintain connection
+                await ws.send_json({
+                    "type": "keep_alive",
+                    "message": "Connection active"
+                })
+                continue
             except Exception as config_error:
                 print(f"Error processing configuration: {config_error}")
                 continue
@@ -130,7 +138,6 @@ async def scan_market(ws: WebSocket):
                 if data and current_strategy_class:
                     try:
                         # Additional strategy-specific processing
-                        # Note: This assumes strategies have a method like check_signal
                         strategy_signal = current_strategy_class.check_signal(
                             pd.DataFrame([data]), 
                             data.get('rvol', 0)
@@ -171,7 +178,10 @@ async def scan_market(ws: WebSocket):
 
     except WebSocketDisconnect:
         print("❌ WebSocket client disconnected")
-
     except Exception as e:
-        print(f"🔥 WebSocket error: {e}")
-        await ws.close()
+        print(f"🔥 Unexpected WebSocket error: {e}")
+    finally:
+        try:
+            await ws.close()
+        except Exception:
+            pass
